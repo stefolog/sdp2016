@@ -39,12 +39,3 @@ int main() {
   printTwitterUser();
   printFacebookUser();
 }
-
-
-
-
-
-
-
-
-
