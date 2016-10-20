@@ -3,15 +3,14 @@
 
 Задачи
 ---
-1. Word Count - OK
-2. Columns Merge - OK
+1. Word Count
+2. Columns Merge
 3. Head
 4. Tail
 
 Домашно
 ---
 5. Tail with random access
-
 
 Бонус точки
 ---

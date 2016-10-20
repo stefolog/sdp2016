@@ -13,11 +13,9 @@ int main() {
   while (file.get(c)) {
     if (('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z')) {
       inWord = true;
-      // cout << c;
     } else {
       if (inWord) {
         words++;
-        // cout << endl;
       }
       inWord = false;
     }

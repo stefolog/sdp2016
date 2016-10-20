@@ -33,9 +33,16 @@ void tail(string filename, int lines) {
   }
   fin.close();
 
-  for (int i = 0; i < lines; i++) {
-    cout << bufferLines[(i + linesCount) % lines] << endl;
+  if (linesCount < lines) {
+    for (int i = 0; i < linesCount; i++) {
+      cout << bufferLines[i] << endl;
+    }
+  } else {
+    for (int i = 0; i < lines; i++) {
+      cout << bufferLines[(i + linesCount) % lines] << endl;
+    }
   }
+
   delete[] bufferLines;
 }
 
@@ -49,5 +56,5 @@ int main() {
   // head(filename, lines);
   // cout << endl << endl << "tail" << endl;
   tail(filename, lines);
-  cout << endl << endl;
+  // cout << endl << endl;
 }

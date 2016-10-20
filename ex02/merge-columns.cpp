@@ -6,7 +6,7 @@ int main() {
   fstream fin("merge-columns.txt");
   ofstream fout("merge-columns-result.txt");
 
-  string x;
+  int x;
   while (fin >> x) {
     fout << x << endl;
   }
