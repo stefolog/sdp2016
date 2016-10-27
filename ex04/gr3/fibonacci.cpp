@@ -1,5 +1,5 @@
 #include<iostream>
-#include "../templates/stack.cpp"
+#include "../../templates/stack.cpp"
 
 using namespace std;
 
