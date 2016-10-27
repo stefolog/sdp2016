@@ -12,23 +12,24 @@ using namespace std;
   | |
   |_|
 */
-struct bracketPair {
+
+struct BracketPair {
   char opening;
   char closing;
 };
 
-const int supportedBracketsCount = 5;
-bracketPair supportedBrackets[] = {
-  { '(', ')' },
-  { '[', ']' },
-  { '{', '}' },
-  { '<', '>' },
-  { 'a', 'A' },
+const int SUPPORTED_BRACKETS_COUNT = 5;
+BracketPair supportedBrackets[] = {
+  { '(', ')'},
+  { '[', ']'},
+  { '{', '}'},
+  { '<', '>'},
+  { 'a', 'A'}
 };
 
 
 bool isOpeningBracket(char c) {
-  for (int i = 0; i < supportedBracketsCount; i++) {
+  for (int i = 0; i < SUPPORTED_BRACKETS_COUNT; i++) {
     if (supportedBrackets[i].opening == c) {
       return true;
     }
@@ -37,7 +38,7 @@ bool isOpeningBracket(char c) {
 }
 
 bool isClosingBracket(char c) {
-  for (int i = 0; i < supportedBracketsCount; i++) {
+  for (int i = 0; i < SUPPORTED_BRACKETS_COUNT; i++) {
     if (supportedBrackets[i].closing == c) {
       return true;
     }
@@ -46,7 +47,7 @@ bool isClosingBracket(char c) {
 }
 
 bool bracketsMatch(char opening, char closing) {
-  for (int i = 0; i < supportedBracketsCount; i++) {
+  for (int i = 0; i < SUPPORTED_BRACKETS_COUNT; i++) {
     if (supportedBrackets[i].opening == opening) {
       return supportedBrackets[i].closing == closing;
     }
@@ -77,7 +78,7 @@ bool brackets(string str) {
   return openBrackets.empty();
 }
 
-void validate_brackets(string str, bool expected) {
+void validateBrackets(string str, bool expected) {
   if (brackets(str) == expected) {
     cout << "[OK ] " << str << endl;
   } else {
@@ -85,13 +86,13 @@ void validate_brackets(string str, bool expected) {
   }
 }
 
-struct testData {
+struct TestData {
   string test;
   bool expected;
 };
 
-const int testsCount = 19;
-testData tests[] = {
+const int TESTS_COUNT = 19;
+TestData tests[] = {
   { "", true },
   { "ala bala", true },
   { "()", true },
@@ -114,8 +115,8 @@ testData tests[] = {
 };
 
 int main() {
-  for (int i = 0; i < testsCount; i++) {
-    validate_brackets(tests[i].test, tests[i].expected);
+  for (int i = 0; i < TESTS_COUNT; i++) {
+    validateBrackets(tests[i].test, tests[i].expected);
   }
 
 }
