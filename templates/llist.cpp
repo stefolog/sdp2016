@@ -16,7 +16,7 @@ template <class T>
 class LList
 {
 public:
- LList();
+  LList();
   ~LList();
   LList(LList const&);
   LList& operator=(LList const &);
@@ -24,11 +24,14 @@ public:
   void IterStart(elem_link1<T>* = NULL);
   elem_link1<T>* Iter();
   void ToEnd(T const &);
+
   void InsertAfter(elem_link1<T> *, T const &);
   void InsertBefore(elem_link1<T> *, T const &);
+
   int DeleteAfter(elem_link1<T> *, T &);
   int DeleteBefore(elem_link1<T> *, T &);
-  void DeleteElem_link1(elem_link1<T> *, T &);
+  void DeleteElem(elem_link1<T> *, T &);
+
   bool empty();
   int len();
   void concat(LList const&);
@@ -175,7 +178,7 @@ int LList<T>::DeleteAfter(elem_link1<T> *p, T &x)
 }
 
 template <class T>
-void LList<T>::DeleteElem_link1(elem_link1<T> *p, T &x)
+void LList<T>::DeleteElem(elem_link1<T> *p, T &x)
 {
   if(p==Start)
   {
@@ -199,7 +202,7 @@ int LList<T>::DeleteBefore(elem_link1<T> *p, T &x)
   {
     elem_link1<T> *q=Start;
     while(q->link!=p)q = q->link;
-    DeleteElem_link1(q, x);
+    DeleteElem(q, x);
     return 1;
   } else return 0;
 }
