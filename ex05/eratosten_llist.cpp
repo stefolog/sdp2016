@@ -45,14 +45,18 @@ bool isPrime(long n) {
       }
       q->inf = false;
     }
-    numbers.IterStart(p); // !
     prev = p;
     i++;
+    if (!p->link) {
+      break;
+    }
+    numbers.IterStart(p->link); // !
   }
 
   return prev->inf;
 }
 
 int main() {
-  cout << "99999: " << isPrime(10) << endl;
+  cout << "127: " << isPrime(127) << endl;
+  cout << "123: " << isPrime(123) << endl;
 }
