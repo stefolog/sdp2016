@@ -2,6 +2,7 @@
 #define CYCLICLIST_H_INCLUDED
 
 #include <iostream>
+#include <cassert>
 
 using namespace std;
 
@@ -27,7 +28,7 @@ public:
   void insert(const T&);
   void toEnd(const T&);
   void deleteElem(elem_cyclic<T>*, T&);
-  void print() const;
+  void print();
   int length() const;
 private:
   elem_cyclic<T> *start,
@@ -129,7 +130,7 @@ void cyclicList<T>::deleteElem(elem_cyclic<T>* p, T& x)
    delete p;
 }
 template <typename T>
-void cyclicList<T>::print() const
+void cyclicList<T>::print()
 {
   iterStart();
   elem_cyclic<T> *p;
