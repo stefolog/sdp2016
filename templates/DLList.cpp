@@ -141,6 +141,7 @@ void DLList<T>::toStart(const T& x)
    start->succ = p;
 }
 
+template <typename T>
 void DLList<T>::deleteElem(elem_link2<T>* p, T& x)
 { x = p->inf;
    if (start == end)  start = end = NULL;
