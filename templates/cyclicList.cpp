@@ -130,14 +130,15 @@ void cyclicList<T>::deleteElem(elem_cyclic<T>* p, T& x)
 }
 template <typename T>
 void cyclicList<T>::print() const
-{ elem_cyclic<T> *p = start;
-   if (p)
-      do
-      { p = p->link;
-         cout << p->inf << " ";
-      } while (p != start);
-   cout << endl;
+{
+  iterStart();
+  elem_cyclic<T> *p;
+  while ((p = this->iter())) {
+    cout << p->inf << " ";
+  }
+  cout << endl;
 }
+
 template <typename T>
 int cyclicList<T>::length() const
 { int n = 0;
