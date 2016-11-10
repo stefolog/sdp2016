@@ -3,8 +3,8 @@ README.md
 Упражнение 6
 ===
 
- * Цикличен списък
- * Двусвързан списък
+ * Цикличен списък (templates/cyclicList.cpp)
+ * Двусвързан списък (templates/DLList.cpp)
 
 Задача 1
 ---
@@ -45,5 +45,23 @@ void tail(string filename, int lines) {
 Напишете програма, която отпечатва едносвързан списък в обратен ред.
 Напишете програма, която отпечатва двусвързан списък в обратен ред.
 Направете сравнение в скоростите, при наличието на голям брой елементи (10000).
+
+
+Задача 3
+---
+Range<T>(LList<T>, startIdx, endIdx)
+Range<T>(DLList<T>, startIdx, endIdx)
+Range<T>(LList<T>, elem_link1<T>* startElement, count)
+Range<T>(DLList<T>, elem_link2<T>* startElement, count)
+
+Range:
+  int size()
+  Iterator<T> iterator()
+
+
+Iterator<T>
+  bool hasNext()
+  T next()
+
 
 
