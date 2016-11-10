@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
-#include "../templates/DLList.cpp"
-#include "../templates/llist.cpp"
+#include "../../templates/DLList.cpp"
+#include "../../templates/llist.cpp"
 
 template <typename T>
 void reverse(LList<T>& list) {
@@ -42,5 +42,5 @@ int main() {
   for (int i = 0; i < 10000; i++) {
     dl.toEnd(i);
   }
-  reverse(dl);
+  // reverse(dl);
 }
