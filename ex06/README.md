@@ -49,19 +49,24 @@ void tail(string filename, int lines) {
 
 Задача 3
 ---
-Range<T>(LList<T>, startIdx, endIdx)
-Range<T>(DLList<T>, startIdx, endIdx)
-Range<T>(LList<T>, elem_link1<T>* startElement, count)
-Range<T>(DLList<T>, elem_link2<T>* startElement, count)
+Да се реалзиира клас Range, който позволява взимането на произволна поредица от елементи от списък (едно или двусвързан).
+Конструктори:
+  Range(LList<T>, int startIdx, int endIdx)
+  Range(DLList<T>, int startIdx, int endIdx)
+  взимат частта от списъка от между индексите startIdx и endIdx включително.
 
-Range:
-  int size()
-  Iterator<T> iterator()
+  Range(LList<T>, elem_link1<T>* startElement, int count)
+  Range(DLList<T>, elem_link2<T>* startElement, int count)
+  взимат частта от списъка с начало startElement и брой елемент count. Ако count е отрицателно число се взимат предходните елементи.
 
+Ако елементите в списъка не са достатъчни, да се лимитира частта до съществуващи такива. Например:
+Ако имаме списък с 5 елемента, а вземе Range(list, 0, 10), трябва да са достъпни елементите с индекси [0, 4].
 
+Реализирайте следните функции:
+  int size() - връща броят елементи в поредицата
+  Iterator<T> iterator() - връща итератор за елементите в поредицата
+
+Интерфейс за класа на итератора:
 Iterator<T>
   bool hasNext()
   T next()
-
-
-
