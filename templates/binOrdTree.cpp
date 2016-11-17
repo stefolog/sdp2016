@@ -1,3 +1,17 @@
+#include <iostream>
+#include <cassert>
+
+using namespace std;
+
+template <class T>
+struct node_bin
+{
+  T inf;
+  node_bin *left;
+  node_bin *right;
+};
+
+
 template <typename T = int>
 class binOrdTree {
 public:
@@ -13,6 +27,7 @@ public:
   binOrdTree leftTree() const;
   binOrdTree rightTree() const;
   void create3(const T&, const binOrdTree&, const binOrdTree&);
+  void create();
 
   void print() const
   { pr(root);
