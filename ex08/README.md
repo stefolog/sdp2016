@@ -81,7 +81,8 @@ TreeSet<T>
     setA.deleteAll(setB)
     -=
 
-  cartesianProduct
+  template<T, K>
+  TreeSet<Pair<T,K>> TreeSet<T>::cartesianProduct(TreeSet<K> setB)
     setA * setB
 
 Vector
@@ -99,7 +100,3 @@ Hashtable
  O(1)     void remove(T)
  O(1)     bool contains(T) const
   key -> value
-
-
-
-

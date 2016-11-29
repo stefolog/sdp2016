@@ -40,6 +40,31 @@ private:
   binOrdTree<T> data;
 };
 
+template <typename T, typename K>
+class Pair {
+public:
+  T x;
+  K y;
+
+  bool operator==(const Pair<T, K>& other) const {
+    return other.x == x && other.y == y;
+  }
+
+  bool operator<(const Pair<T, K>& other) const {
+    return x < other.x || (x == other.x && y < other.y);
+  }
+
+  bool operator>(const Pair<T, K>& other) const {
+    return x > other.x || (x == other.x && y > other.y);
+  }
+};
+
+template <typename T, typename K>
+ostream& operator<<(ostream& out, const Pair<T, K>& other) {
+  out << "(" << other.x << " " << other.y << ")";
+  return out;
+}
+
 template <typename T>
 class TreeSet {
 public:
@@ -58,6 +83,25 @@ public:
   TreeSet<T> intersectSet(TreeSet<T>) const;
 
   TreeSet<T>& addAll(TreeSet<T>);
+
+  template <typename K>
+  TreeSet<Pair<T,K> > cartesianProduct(TreeSet<K> other) const {
+    TreeSet<Pair<T,K> > result;
+
+    TreeSetIterator<T> setA = this->iterator();
+    while (setA.hasNext()) {
+      TreeSetIterator<K> setB = other.iterator();
+      T x = setA.next();
+      while (setB.hasNext()) {
+        K y = setB.next();
+
+        Pair<T, K> pair = { x, y };
+        result.add(pair);
+      }
+    }
+
+    return result;
+  }
 
   TreeSet<T> operator+(TreeSet<T> other) {
     return unionSet(other);
@@ -103,6 +147,17 @@ void problem2() {
   (setA + setB + setA).print();
   (setA ^ setA).print();
   (setA ^ setB).print();
+
+  TreeSet<char> setC;
+  setC.add('a');
+  setC.add('b');
+  setC.add('c');
+  setC.add('a');
+  setC.add('a');
+  setC.add('c');
+  setC.print();
+
+  setA.cartesianProduct(setC).cartesianProduct(setA.cartesianProduct(setC)).print();
 }
 
 template <typename T>
