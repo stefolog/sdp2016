@@ -1,6 +1,6 @@
 #include <iostream>
-#include "../templates/tree.cpp"
-#include "../templates/binOrdTree.cpp"
+#include "../../templates/tree.cpp"
+#include "../../templates/binOrdTree.cpp"
 
 using namespace std;
 

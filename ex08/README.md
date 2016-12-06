@@ -28,10 +28,15 @@ tree:
 
 operation: *
 operands tree:
-     5
-    /
-   3
-
+       5
+      / \
+     3   10
+    /     \
+   2       11
+  /  \      \
+ 1    8      12
+/ \
+7  6
 Result:
          5
         / \
@@ -44,13 +49,28 @@ Result:
 
 
 2. Set - имплементация на множество
-TreeSet<T>
+Set<T>
   void add(T)
   void remove(T)
   bool contains(T) const
   bool empty() const
   void print() const
   void size() const
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   TreeSet<T> union(TreeSet<T>)
   TreeSet<T> intersect(TreeSet<T>)
   TreeSet<T> minus(TreeSet<T>)
