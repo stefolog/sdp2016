@@ -14,7 +14,7 @@ class graph
 		bool top(const T&);
 		bool rib(const T&, const T&);
 		bool empty() const;
-		elem<T>* point(const T&);
+		elem_link1<T>* point(const T&);
 		LList<T> vertexes();
 		void print();
 	private:
@@ -37,18 +37,18 @@ void graph<T>::deleteTop(const T& a)
 { // обхождане на графа с цел изтриване на всички
 	// ребра от произволен връх до върха a
 	g.IterStart();
-	elem<LList<T> >* p = g.Iter(), *r;
+	elem_link1<LList<T> >* p = g.Iter(), *r;
 	while(p)
 	{
 		p->inf.IterStart();
-		elem<T>* q = p->inf.Iter();
+		elem_link1<T>* q = p->inf.Iter();
 		if(rib(q->inf, a)) deleteRib(q->inf, a);
 		p = p->link;
 	}
 	// изтриване на линейния списък, представящ
 	// върха a и неговите наследници
 	g.IterStart();
-	elem<T>* q;
+	elem_link1<T>* q;
 	do
 	{
 		r = g.Iter();
@@ -64,10 +64,10 @@ void graph<T>::deleteTop(const T& a)
 template <typename T>
 void graph<T>::addRib(const T& a, const T& b)
 { // намиране на указател към върха a
-	elem<T>* q = point(a), // намира указател към върха a
+	elem_link1<T>* q = point(a), // намира указател към върха a
 		*p;
 	// включване на върха b в списъка от наследниците на върха a
-	p = new elem<T>;
+	p = new elem_link1<T>;
 
 	p->inf = b;
 	p->link = q->link;
@@ -79,8 +79,8 @@ template <typename T>
 void graph<T>::deleteRib(const T& a, const T& b)
 {
 	g.IterStart();
-	elem<LList<T> > *p;
-	elem<T> *q;
+	elem_link1<LList<T> > *p;
+	elem_link1<T> *q;
 	do
 	{
 		p = g.Iter();
@@ -101,8 +101,8 @@ bool graph<T>::top(const T& a)
 {
 	if(g.empty()) return false;
 	g.IterStart();
-	elem<LList<T> > *p = g.Iter();
-	elem<T> *q;
+	elem_link1<LList<T> > *p = g.Iter();
+	elem_link1<T> *q;
 	do
 	{
 		p->inf.IterStart();
@@ -118,7 +118,7 @@ bool graph<T>::top(const T& a)
 template <typename T>
 bool graph<T>::rib(const T& a, const T& b)
 {
-	elem<T>* p = point(a); // намира указател към върха a
+	elem_link1<T>* p = point(a); // намира указател към върха a
 	p = p->link;
 	while(p && p->inf != b) p = p->link;
 	return p != NULL;
@@ -133,11 +133,11 @@ bool graph<T>::empty() const
 
 // намира указател към върха a на графа
 template <typename T>
-elem<T>* graph<T>::point(const T& a)
+elem_link1<T>* graph<T>::point(const T& a)
 {
 	g.IterStart();
-	elem<LList<T> > *p;
-	elem<T> *q;
+	elem_link1<LList<T> > *p;
+	elem_link1<T> *q;
 	do
 	{
 		p = g.Iter();
@@ -154,11 +154,11 @@ LList<T> graph<T>::vertexes()
 {
 	LList<T> l;
 	g.IterStart();
-	elem<LList<T> > *p = g.Iter();
+	elem_link1<LList<T> > *p = g.Iter();
 	while(p)
 	{
 		p->inf.IterStart();
-		elem<T>* q = p->inf.Iter();
+		elem_link1<T>* q = p->inf.Iter();
 		l.ToEnd(q->inf);
 		p = p->link;
 	}
@@ -169,7 +169,7 @@ template <typename T>
 void graph<T>::print()
 {
 	g.IterStart();
-	elem<LList<T> > *p = g.Iter();
+	elem_link1<LList<T> > *p = g.Iter();
 	while(p)
 	{
 		p->inf.print();
