@@ -13,7 +13,7 @@ struct node
   node *Right;
 };
 
-template <class T>
+template <class T = int>
 class tree
 {
   public:
