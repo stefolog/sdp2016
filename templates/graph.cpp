@@ -66,6 +66,7 @@ void graph<T>::addRib(const T& a, const T& b)
 { // намиране на указател към върха a
 	elem_link1<T>* q = point(a), // намира указател към върха a
 		*p;
+
 	// включване на върха b в списъка от наследниците на върха a
 	p = new elem_link1<T>;
 

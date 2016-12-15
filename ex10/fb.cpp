@@ -1,37 +1,43 @@
 #include <iostream>
+#include <ostream>
 #include "../templates/graph.cpp"
-#include "../templates/llist.cpp"
+#include "../templates/treeSet.cpp"
 
 using namespace std;
 
-struct Person {
+struct Person
+{
   string name;
   int age;
-  LList<string> interests;
+  LList<string> likes;
   string school;
 
   bool operator==(const Person& other) const {
-    return name == other.name;
+    return this->name == other.name;
   }
 
-  bool operator!=(const Person& other) const {
-    return name != other.name;
+  bool operator<(const Person& other) const {
+    return this->name < other.name;
+  }
+
+  bool operator!=(const Person& other) {
+    return this->name != other.name;
   }
 };
 
 ostream& operator<<(ostream& out, const Person& person) {
-  out << person.name;
+  out << person.name; //  << " " << person.age;
   return out;
 }
 
 template <typename T>
-LList<T> findNeighbours(graph<T>& g, T node) {
-  if (!g.top(node)) {
+LList<T> findNeighbours(graph<T>& g, const T x) {
+  if (!g.top(x)) {
     return LList<T>();
   }
 
   LList<T> result;
-  elem_link1<T> * p = g.point(node);
+  elem_link1<T> *p = g.point(x);
   while (p->link) {
     p = p->link;
     result.ToEnd(p->inf);
@@ -40,18 +46,17 @@ LList<T> findNeighbours(graph<T>& g, T node) {
   return result;
 }
 
-// TODO: use findNeighbours
 template <typename T>
-LList<T> filterNeighbourNodesBy(graph<T>& g, T node, bool (*filter)(T&, T&)) {
-  if (!g.top(node)) {
+LList<T> filterNeighbours(graph<T>& g, const T x, bool (*filter)(T, T)) {
+  if (!g.top(x)) {
     return LList<T>();
   }
 
   LList<T> result;
-  elem_link1<T> * p = g.point(node);
+  elem_link1<T> *p = g.point(x);
   while (p->link) {
     p = p->link;
-    if (filter(p->inf, node)) {
+    if (filter(x, p->inf)) {
       result.ToEnd(p->inf);
     }
   }
@@ -59,61 +64,12 @@ LList<T> filterNeighbourNodesBy(graph<T>& g, T node, bool (*filter)(T&, T&)) {
   return result;
 }
 
-template <typename T>
-bool contains(LList<T>& list, T& elem) {
-  list.IterStart();
-  elem_link1<T> * p;
-  while ((p = list.Iter())) {
-    if (p->inf == elem) {
-      return true;
-    }
-  }
-  return false;
+bool filterBySameAge(Person x, Person y) {
+  return x.age == y.age;
 }
 
-
-bool sameAge(Person& p1, Person& p2) {
-  return p1.age == p2.age;
-}
-
-// Biz domain -> Tech
-LList<Person> findFriendsWithAge(graph<Person>& people, Person person, int age) {
-  return filterNeighbourNodesBy(people, person, sameAge);
-}
-
-LList<Person> findFriendsWithSameAge(graph<Person>& people, Person person) {
-  return findFriendsWithAge(people, person, person.age);
-}
-
-LList<Person> findFriendsOfFriends(graph<Person>& people, Person person) {
-  if (!people.top(person)) {
-    return LList<Person>();
-  }
-
-  LList<Person> unknownPeople;
-
-  LList<Person> friends = findNeighbours(people, person);
-  LList<Person> knownPeople = friends;
-  knownPeople.ToEnd(person);
-
-  friends.IterStart();
-  elem_link1<Person> * p;
-  while ((p = friends.Iter())) {
-    LList<Person> friendsOfAFriend = findNeighbours(people, p->inf);
-
-    friendsOfAFriend.IterStart();
-    elem_link1<Person> * aFriendOfAFriend;
-
-    while ((aFriendOfAFriend = friendsOfAFriend.Iter())) {
-      if (!contains(knownPeople, aFriendOfAFriend->inf)) {
-        if (!contains(unknownPeople, aFriendOfAFriend->inf)) {
-          unknownPeople.ToEnd(aFriendOfAFriend->inf);
-        }
-      }
-    }
-  }
-
-  return unknownPeople;
+LList<Person> findAllFriendWithSameAge(graph<Person>& people, Person person) {
+  return filterNeighbours(people, person, filterBySameAge);
 }
 
 void problem1() {
@@ -122,11 +78,16 @@ void problem1() {
   Person mariaGermanova = { "Maria Germanova", 48 };
   Person peterDimtrov = { "Peter Dimitrov", 24 };
 
+  // init
   graph<Person> people;
+
   people.addTop(ivanDimtrov);
   people.addTop(peterIvanov);
   people.addTop(mariaGermanova);
   people.addTop(peterDimtrov);
+
+  people.addRib(ivanDimtrov, peterIvanov);
+  people.addRib(peterIvanov, ivanDimtrov);
 
   people.addRib(ivanDimtrov, mariaGermanova);
   people.addRib(mariaGermanova, ivanDimtrov);
@@ -134,16 +95,51 @@ void problem1() {
   people.addRib(ivanDimtrov, peterDimtrov);
   people.addRib(peterDimtrov, ivanDimtrov);
 
-  people.addRib(ivanDimtrov, peterIvanov);
-  people.addRib(peterIvanov, ivanDimtrov);
+
+
+  people.addRib(peterIvanov, mariaGermanova);
+  people.addRib(mariaGermanova, peterIvanov);
+
+  people.addRib(peterIvanov, peterDimtrov);
+  people.addRib(peterDimtrov, peterIvanov);
 
   people.print();
-  cout << " ... END OF GRAPH ... " << endl;
 
-  findFriendsWithSameAge(people, ivanDimtrov).print();
+  cout << "findAllFriendWithSameAge" << endl;
+  findAllFriendWithSameAge(people, ivanDimtrov).print();
+  // result: Peter Dimitrov
 }
 
-void problem2() {
+template <typename T>
+TreeSet<T> toSet(LList<T> list) {
+  TreeSet<T> set;
+
+  elem_link1<T> *p;
+  list.IterStart();
+  while ((p = list.Iter())) {
+    set.add(p->inf);
+  }
+
+  return set;
+}
+
+TreeSet<Person> friendsOfTheFriends(graph<Person>& people, Person person) {
+  TreeSet<Person> friends = toSet(findNeighbours(people, person));
+  TreeSet<Person> friendsOfFriends;
+
+  TreeSetIterator<Person> iter = friends.iterator();
+  while (iter.hasNext()) {
+    Person aFriend = iter.next();
+    friendsOfFriends = friendsOfFriends.unionSet(toSet(findNeighbours(people, aFriend)));
+  }
+
+  friendsOfFriends = friendsOfFriends.minusSet(friends);
+  friendsOfFriends.remove(person);
+
+  return friendsOfFriends;
+}
+
+int main() {
   graph<Person> people;
 
   Person a = { "a" };
@@ -193,95 +189,7 @@ void problem2() {
   people.print();
   cout << "END OF Graph..." << endl;
 
-  // TODO homework - 2 common interests
-  findFriendsOfFriends(people, a).print();
+  friendsOfTheFriends(people, a).print();
 }
 
-LList<Person> findPossibleSchoolMates(graph<Person>& g, Person person) {
-  LList<Person> possibleMates;
 
-  LList<Person> allPeople = g.vertexes();
-  allPeople.IterStart();
-  elem_link1<Person> * p;
-
-  while ((p = allPeople.Iter())) {
-    if (p->inf == person) {
-      continue;
-    }
-    if (!g.rib(p->inf, person)) {
-      if (person.age == p->inf.age && person.school == p->inf.school) {
-        possibleMates.ToEnd(p->inf);
-      }
-    }
-  }
-
-  return possibleMates;
-}
-
-void problem3() {
-  graph<Person> people;
-
-  Person a = { "a", 24, LList<string>(), "alabala"};
-  Person b = { "b" };
-  Person c = { "c" };
-  Person d = { "d" };
-  Person e = { "e" };
-  Person f = { "f" };
-  Person g = { "g" };
-  Person h = { "h" };
-  Person i = { "i", 24, LList<string>(), "alabala"};
-  Person j = { "j" };
-
-  people.addTop(a);
-  people.addTop(b);
-  people.addTop(c);
-  people.addTop(d);
-  people.addTop(e);
-  people.addTop(f);
-  people.addTop(g);
-  people.addTop(h);
-  people.addTop(i);
-  people.addTop(j);
-
-  people.addRib(a, b);
-  people.addRib(b, a);
-  people.addRib(a, c);
-  people.addRib(c, a);
-  people.addRib(a, d);
-  people.addRib(d, a);
-
-  people.addRib(b, e);
-  people.addRib(e, b);
-  people.addRib(b, f);
-  people.addRib(f, b);
-  people.addRib(b, c);
-  people.addRib(c, b);
-
-  people.addRib(c, g);
-  people.addRib(g, c);
-  people.addRib(c, h);
-  people.addRib(h, c);
-  people.addRib(c, d);
-  people.addRib(d, c);
-
-  people.addRib(d, g);
-  people.addRib(g, d);
-  people.addRib(d, h);
-  people.addRib(h, d);
-
-  people.addRib(i, j);
-  people.addRib(j, i);
-
-  people.print();
-  cout << "END OF Graph..." << endl;
-
-  findPossibleSchoolMates(people, a).print();
-}
-
-int main() {
-  // problem1();
-  // problem2();
-  problem3();
-
-  return 0;
-}

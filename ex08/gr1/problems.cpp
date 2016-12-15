@@ -36,14 +36,7 @@ ostream& operator<<(ostream& out, const Pair<T, K>& obj) {
 }
 
 template <typename T>
-class TreeSetIterator : Iterator<T> {
-public:
-  virtual bool hasNext() = 0;
-  virtual T next() = 0;
-};
-
-template <typename T>
-class TreeSetIterator : Iterator<T> {
+class TreeSetIterator
 public:
   TreeSetIterator(binOrdTree<T> data) {
     this->data = data;
@@ -71,7 +64,7 @@ class Set {
   virtual void print() const = 0;
   virtual int size() const = 0;
 
-  virtual Iterator<T> iterator() const = 0;
+  virtual TreeSetIterator<T> iterator() const = 0;
 
   virtual Set<T> unionSet(Set<T>) const = 0;
   virtual Set<T> intersectSet(Set<T>) const = 0;
@@ -94,7 +87,7 @@ public:
   void print() const;
   int size() const;
 
-  const Iterator<T>& iterator() const {
+  const TreeSetIterator<T>& iterator() const {
     return TreeSetIterator<T>(data);
   }
 
