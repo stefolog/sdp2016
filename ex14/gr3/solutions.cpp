@@ -3,11 +3,26 @@
 
 using namespace std;
 
+/*
+  Problem 1
+*/
 int sumTree(const tree<int> &);
 int prodTree(const tree<int> &);
 int sum(const tree<int> &, bool = true);
+void problem1();
+
+/*
+  Problem 2
+*/
+bool hasPath(graph<int>&, int, int);
+void problem2();
 
 int main() {
+  // problem1();
+  problem2();
+}
+
+void problem1() {
   tree<int> t;
   t.Create();
   cout << endl << endl << endl << endl;
@@ -44,3 +59,41 @@ int prodTree(const tree<int> & t) {
 
   return t.RootTree() * sumTree(t.LeftTree()) * sumTree(t.RightTree());
 }
+
+void problem2() {
+  graph<int> g;
+  g.addTop(1);
+  g.addTop(2);
+  g.addTop(3);
+  g.addTop(4);
+  g.addTop(5);
+  g.addTop(6);
+  g.addTop(7);
+
+  g.addRib(1, 2);
+  g.addRib(1, 3);
+
+  g.addRib(2, 4);
+  g.addRib(2, 5);
+
+  g.addRib(3, 5);
+  g.addRib(3, 6);
+  g.addRib(3, 7);
+
+  g.addRib(5, 3);
+  g.addRib(5, 4);
+  g.addRib(6, 5);
+  g.addRib(7, 6);
+
+  // g.addRib(4, 1); // connect it
+  LList<int> v = g.vertexes();
+  // foreach vertex
+  //   foreach othervertex
+  //     if !hasPath(vertex, othervertex) {
+  //       return false;
+  //     }
+
+}
+
+bool hasPath(graph<int>&, int, int) {}
+
