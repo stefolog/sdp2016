@@ -32,7 +32,7 @@ public:
   int DeleteBefore(elem_link1<T> *, T &);
   void DeleteElem(elem_link1<T> *, T &);
 
-  bool empty();
+  bool empty() const;
   int len();
   void concat(LList const&);
   void reverse();
@@ -208,7 +208,7 @@ int LList<T>::DeleteBefore(elem_link1<T> *p, T &x)
 }
 
 template <class T>
-bool LList<T>::empty()
+bool LList<T>::empty() const
 {
   return End == NULL;
 }
